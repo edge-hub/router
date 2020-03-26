@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "webworker"
+        ],
+        "declaration": true,
+        "sourceMap": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true
+    }
+}
