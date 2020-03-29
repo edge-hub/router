@@ -5,7 +5,7 @@ A minimal Express.js like router for cloudflare workers.
 ## ✨ Features:
 
 - Based on [trouter](https://github.com/lukeed/trouter)
-- Express style routesedge-router
+- Express style routes
 - Middleware support
 - Small in size (1.2KB)
 
