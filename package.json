@@ -1,7 +1,7 @@
 {
   "name": "edge-router",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "A minimal Express.js like router for cloudflare workers.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -24,5 +24,13 @@
   "dependencies": {
     "cookie": "^0.4.0",
     "trouter": "^3.1.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinaypuppal/edge-router.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vinaypuppal/edge-router/issues"
+  },
+  "homepage": "https://github.com/vinaypuppal/edge-router#readme"
 }
