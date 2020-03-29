@@ -358,6 +358,10 @@ default: `86400`
 
 default: `*`
 
+## Todos
+
+- [ ] Tests
+
 ## 📃 License
 
 MIT &copy; [Vinay Puppal](https://vinaypuppal.com)
