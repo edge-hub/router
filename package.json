@@ -7,7 +7,6 @@
   "files": [
     "README.md",
     "dist",
-    "src",
     "package.json"
   ],
   "scripts": {
@@ -19,6 +18,9 @@
   "devDependencies": {
     "@types/cookie": "^0.3.3",
     "@types/trouter": "^3.1.0",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.10",
+    "prettier": "^2.0.2",
     "typescript": "^3.8.3"
   },
   "dependencies": {
@@ -32,5 +34,20 @@
   "bugs": {
     "url": "https://github.com/vinaypuppal/edge-router/issues"
   },
-  "homepage": "https://github.com/vinaypuppal/edge-router#readme"
+  "homepage": "https://github.com/vinaypuppal/edge-router#readme",
+  "lint-staged": {
+    "*.{js,ts,json}": [
+      "prettier --write",
+      "git add"
+    ],
+    "**/*.md": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
 }

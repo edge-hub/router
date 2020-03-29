@@ -2,12 +2,14 @@
 
 A minimal Express.js like router for cloudflare workers.
 
+[![NPM version](https://img.shields.io/npm/v/preact-cli-plugin-netlify.svg)](https://www.npmjs.com/package/edge-router)
+
 ## ✨ Features:
 
 - Based on [trouter](https://github.com/lukeed/trouter)
 - Express style routes
 - Middleware support
-- Small in size (1.2KB gzip)
+- Helper functions to create and send response
 
 ## 🔋 Install
 
@@ -72,10 +74,7 @@ You can configure it by passing a handler in router options as shown below.
 ```js
 const worker = new EdgeRouter({
   onNoMatch: (ctx) => {
-    return ctx
-      .status(404)
-      .json({ message: `Resource Not Found` })
-      .end();
+    return ctx.status(404).json({ message: `Resource Not Found` }).end();
   },
 });
 
