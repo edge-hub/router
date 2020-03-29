@@ -12,7 +12,11 @@ A minimal Express.js like router for cloudflare workers.
 ## 🔋 Install
 
 ```
+# with Yarn
 yarn add edge-router
+
+# with NPM
+npm install edge-router
 ```
 
 ## 💻 Usage
