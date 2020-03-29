@@ -270,6 +270,8 @@ This library comes with a `cors` middleware, which can be used a shown below
 #### Basic
 
 ```js
+import { EdgeRouter, cors } from "edge-router";
+
 const worker = new EdgeRouter();
 
 // CORS middleware
@@ -285,6 +287,8 @@ worker.listen();
 #### With options
 
 ```js
+import { EdgeRouter, cors } from "edge-router";
+
 const worker = new EdgeRouter();
 
 // CORS middleware with options
@@ -300,6 +304,8 @@ worker.listen();
 #### With dynamic origin
 
 ```js
+import { EdgeRouter, cors } from "edge-router";
+
 const worker = new EdgeRouter();
 
 // CORS middleware with options
