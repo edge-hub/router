@@ -2,7 +2,7 @@
 
 A minimal Express.js like router for cloudflare workers.
 
-[![NPM version](https://img.shields.io/npm/v/preact-cli-plugin-netlify.svg)](https://www.npmjs.com/package/edge-router)
+[![NPM version](https://img.shields.io/npm/v/edge-router.svg)](https://www.npmjs.com/package/edge-router)
 
 ## ✨ Features:
 
