@@ -7,7 +7,7 @@ A minimal Express.js like router for cloudflare workers.
 - Based on [trouter](https://github.com/lukeed/trouter)
 - Express style routes
 - Middleware support
-- Small in size (1.2KB)
+- Small in size (1.2KB gzip)
 
 ## 🔋 Install
 
