@@ -1,37 +1,18 @@
 import Trouter from "trouter";
 
-export interface HandlerContext {
-  url: string;
-  hash: string;
-  host: string;
-  hostname: string;
-  pathname: string;
-  protocol: string;
-  method: string;
-  search: string;
-  query: Record<string, string | string[] | undefined>;
-  params: Record<string, string | undefined>;
-  responseHeaders: Record<string, string> | Headers;
-  request: Request;
-  event: FetchEvent;
-  [key: string]: any;
-}
+import { Context } from "./context";
 
-export type Handler = (
-  context: HandlerContext
-) => Response | Promise<Response> | void;
+export type Handler = (context: Context) => Response | Promise<Response> | void;
 
 export type ErrorHandler = (
   error: Error,
-  context: HandlerContext
+  context: Context
 ) => Response | Promise<Response>;
 
-export type NoMatchHandler = (
-  context: HandlerContext
-) => Response | Promise<Response>;
+export type NoMatchHandler = (context: Context) => Response | Promise<Response>;
 
 export type BeforeResponseHandler = (
-  context: HandlerContext,
+  context: Context,
   response: Response
 ) => Response | Promise<Response> | void;
 
@@ -61,15 +42,6 @@ export class EdgeRouter extends Trouter<Handler> {
     this.onBeforeResponse = options.onBeforeResponse;
   }
 
-  private instanceToJson(instance: any) {
-    return [...instance].reduce((obj, item) => {
-      const prop: { [key: string]: any } = {};
-      const key = item[0] as string;
-      prop[key] = item[1];
-      return { ...obj, ...prop };
-    }, {});
-  }
-
   public use(path: string | RegExp | Handler, ...handlers: Handler[]) {
     if (typeof path === "function") {
       handlers.unshift(path);
@@ -80,51 +52,33 @@ export class EdgeRouter extends Trouter<Handler> {
     return this;
   }
 
-  public async onRequest(
-    event: FetchEvent,
-    context: { [key: string]: any } = {}
-  ) {
+  public async onRequest(event: FetchEvent) {
     const { request } = event;
-    context.request = request;
-    context.event = event;
-
-    const url = new URL(request.url);
-    context.method = request.method;
-    context.url = url.href;
-    context.host = url.host;
-    context.hash = url.hash;
-    context.pathname = url.pathname;
-    context.protocol = url.protocol.slice(0, -1);
-    context.search = url.search;
-    context.querystring = url.search.slice(1);
-    context.query = this.instanceToJson(url.searchParams);
+    const context = new Context(event);
 
     try {
       const { handlers, params } = this.find(
         request.method as Trouter.HTTPMethod,
-        url.pathname
+        context.pathname
       );
 
       context.params = params;
       handlers.push(this.onNoMatch);
 
       for (const handler of handlers) {
-        const response = await handler(context as HandlerContext);
+        const response = await handler(context);
         if (response instanceof Response) {
           if (this.onBeforeResponse !== undefined) {
-            const res = await this.onBeforeResponse(
-              context as HandlerContext,
-              response
-            );
+            const res = await this.onBeforeResponse(context, response);
             if (res instanceof Response) return res;
           }
           return response;
         }
       }
 
-      return this.onNoMatch(context as HandlerContext);
+      return this.onNoMatch(context);
     } catch (error) {
-      return this.onError(error, context as HandlerContext);
+      return this.onError(error, context);
     }
   }
 
