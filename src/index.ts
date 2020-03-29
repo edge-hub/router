@@ -88,18 +88,18 @@ export class EdgeRouter extends Trouter<Handler> {
     context.request = request;
     context.event = event;
 
-    try {
-      const url = new URL(request.url);
-      context.method = request.method;
-      context.url = url.href;
-      context.host = url.host;
-      context.hash = url.hash;
-      context.pathname = url.pathname;
-      context.protocol = url.protocol.slice(0, -1);
-      context.search = url.search;
-      context.querystring = url.search.slice(1);
-      context.query = this.instanceToJson(url.searchParams);
+    const url = new URL(request.url);
+    context.method = request.method;
+    context.url = url.href;
+    context.host = url.host;
+    context.hash = url.hash;
+    context.pathname = url.pathname;
+    context.protocol = url.protocol.slice(0, -1);
+    context.search = url.search;
+    context.querystring = url.search.slice(1);
+    context.query = this.instanceToJson(url.searchParams);
 
+    try {
       const { handlers, params } = this.find(
         request.method as Trouter.HTTPMethod,
         url.pathname
