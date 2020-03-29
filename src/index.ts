@@ -93,5 +93,8 @@ export class EdgeRouter extends Trouter<Handler> {
       }
       event.respondWith(this.onRequest(event));
     });
+    return this;
   }
 }
+
+export * from "./middlewares";
