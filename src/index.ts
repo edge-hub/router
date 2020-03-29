@@ -1,36 +1,64 @@
-import "@cloudflare/workers-types";
-import * as Trouter from "trouter";
+import Trouter from "trouter";
 
-interface HandlerContext {
+export interface HandlerContext {
   url: string;
   hash: string;
   host: string;
   hostname: string;
   pathname: string;
   protocol: string;
+  method: string;
   search: string;
   query: Record<string, string | string[] | undefined>;
   params: Record<string, string | undefined>;
+  responseHeaders: Record<string, string> | Headers;
+  request: Request;
+  event: FetchEvent;
   [key: string]: any;
 }
 
-export interface Handler {
-  (event: FetchEvent, context: HandlerContext):
-    | Response
-    | Promise<Response>
-    | undefined;
+export type Handler = (
+  context: HandlerContext
+) => Response | Promise<Response> | void;
+
+export type ErrorHandler = (
+  error: Error,
+  context: HandlerContext
+) => Response | Promise<Response>;
+
+export type NoMatchHandler = (
+  context: HandlerContext
+) => Response | Promise<Response>;
+
+export type BeforeResponseHandler = (
+  context: HandlerContext,
+  response: Response
+) => Response | Promise<Response> | void;
+
+export interface RouterOptions {
+  onError?: ErrorHandler;
+  onNoMatch?: NoMatchHandler;
+  onBeforeResponse?: BeforeResponseHandler;
 }
 
-interface RouterOptions {
-  notFoundHandler?: Handler;
+function onNoMatch() {
+  return new Response(`404 - Resource not found`, { status: 404 });
+}
+
+function onError(error: Error) {
+  return new Response(error.message || error.toString(), { status: 500 });
 }
 
 export class EdgeRouter extends Trouter<Handler> {
-  private notFoundHandler: Handler | undefined;
+  private onNoMatch: NoMatchHandler;
+  private onError: ErrorHandler;
+  private onBeforeResponse: BeforeResponseHandler | undefined;
 
-  constructor(options: RouterOptions) {
+  constructor(options: RouterOptions = { onNoMatch, onError }) {
     super();
-    this.notFoundHandler = options.notFoundHandler;
+    this.onNoMatch = options.onNoMatch || onNoMatch;
+    this.onError = options.onError || onError;
+    this.onBeforeResponse = options.onBeforeResponse;
   }
 
   private instanceToJson(instance: any) {
@@ -42,7 +70,7 @@ export class EdgeRouter extends Trouter<Handler> {
     }, {});
   }
 
-  public use(path: string | RegExp, ...handlers: any[]) {
+  public use(path: string | RegExp | Handler, ...handlers: Handler[]) {
     if (typeof path === "function") {
       handlers.unshift(path);
       super.use("/", ...handlers);
@@ -57,45 +85,59 @@ export class EdgeRouter extends Trouter<Handler> {
     context: { [key: string]: any } = {}
   ) {
     const { request } = event;
-    const url = new URL(request.url);
-    const { handlers, params } = this.find(
-      request.method as Trouter.HTTPMethod,
-      url.pathname
-    );
+    context.request = request;
+    context.event = event;
 
-    context.params = params;
-    context.url = url.href;
-    context.host = url.host;
-    context.hash = url.hash;
-    context.pathname = url.pathname;
-    context.protocol = url.protocol.slice(0, -1);
-    context.search = url.search;
-    context.querystring = url.search.slice(1);
-    context.query = this.instanceToJson(url.searchParams);
+    try {
+      const url = new URL(request.url);
+      context.method = request.method;
+      context.url = url.href;
+      context.host = url.host;
+      context.hash = url.hash;
+      context.pathname = url.pathname;
+      context.protocol = url.protocol.slice(0, -1);
+      context.search = url.search;
+      context.querystring = url.search.slice(1);
+      context.query = this.instanceToJson(url.searchParams);
 
-    for (const handler of handlers) {
-      // @ts-ignore
-      const response = await handler(event, context);
-      if (response instanceof Response) {
-        return response;
+      const { handlers, params } = this.find(
+        request.method as Trouter.HTTPMethod,
+        url.pathname
+      );
+
+      context.params = params;
+      handlers.push(this.onNoMatch);
+
+      for (const handler of handlers) {
+        const response = await handler(context as HandlerContext);
+        if (response instanceof Response) {
+          if (this.onBeforeResponse !== undefined) {
+            const res = await this.onBeforeResponse(
+              context as HandlerContext,
+              response
+            );
+            if (res instanceof Response) return res;
+          }
+          return response;
+        }
       }
-    }
 
-    if (this.notFoundHandler) {
-      // @ts-ignore
-      let response = this.notFoundHandler(event, context);
-      if (response instanceof Response) {
-        return response;
-      }
+      return this.onNoMatch(context as HandlerContext);
+    } catch (error) {
+      return this.onError(error, context as HandlerContext);
     }
   }
 
-  public listen() {
-    addEventListener("fetch", async (event: FetchEvent) => {
-      const response = await this.onRequest(event);
-      if (response instanceof Response) {
-        event.respondWith(response);
+  public listen({
+    passThroughOnException = false,
+  }: {
+    passThroughOnException?: boolean;
+  } = {}) {
+    addEventListener("fetch", (event) => {
+      if (passThroughOnException) {
+        event.passThroughOnException();
       }
+      event.respondWith(this.onRequest(event));
     });
   }
 }

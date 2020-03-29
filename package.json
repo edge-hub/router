@@ -2,25 +2,23 @@
   "name": "edge-router",
   "version": "1.0.0",
   "description": "",
-  "source": "src/index.ts",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "main": "dist/edge-router.js",
   "files": [
     "README.md",
     "dist",
+    "src",
     "package.json"
   ],
   "scripts": {
-    "build": "microbundle",
-    "dev": "microbundle watch"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "vinaypuppal",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
-    "@cloudflare/workers-types": "^1.0.7",
     "@types/trouter": "^3.1.0",
-    "microbundle": "^0.11.0"
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "trouter": "^3.1.0"
