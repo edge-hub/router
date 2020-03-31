@@ -16,18 +16,24 @@ class RouterResponse {
   > = {};
   private code?: number;
   private statusText?: string;
-  private body?: Body | null;
+  private responseBody?: Body | null;
   private responseType?: string;
-  raw(data: any) {
-    this.body = data;
+  raw(data: any, type?: string) {
+    this.responseBody = data;
+    if (type) {
+      this.responseHeaders = {
+        ...this.responseHeaders,
+        "Content-Type": type,
+      };
+    }
     return this;
   }
   text(data: string) {
-    this.body = data;
+    this.responseBody = data;
     return this;
   }
   json(data: object) {
-    this.body = JSON.stringify(data);
+    this.responseBody = JSON.stringify(data);
     this.responseHeaders = {
       ...this.responseHeaders,
       "Content-Type": `application/json`,
@@ -72,7 +78,7 @@ class RouterResponse {
       headers: endHeaders = {},
       status = this.code,
       statusText = this.statusText,
-      body = this.body,
+      body = this.responseBody,
     } = data;
     this.responseHeaders = {
       ...this.responseHeaders,
@@ -111,6 +117,7 @@ export class Context extends RouterResponse {
   public cookies: Record<string, string | undefined> = {};
   public request: Request;
   public event: FetchEvent;
+  public requestBody: () => Promise<Body | void>;
   constructor(event: FetchEvent) {
     super();
     const { request } = event;
@@ -127,6 +134,23 @@ export class Context extends RouterResponse {
     this.querystring = url.search.slice(1);
     this.query = this._instanceToJson(url.searchParams);
     this.cookies = cookie.parse(this.request.headers.get("cookie") || "");
+    this.requestBody = this._getBodyParserHelper(request.clone());
+  }
+  private _getBodyParserHelper(request: Request) {
+    return async () => {
+      const parsableMethods = ["post", "put"];
+      if (!parsableMethods.includes(request.method.toLowerCase())) {
+        return;
+      }
+      const contentType = request.headers.get("content-type");
+      if (contentType === "application/json") {
+        return await request.json();
+      }
+      if (contentType === "application/x-www-form-urlencoded") {
+        const formData = await request.formData();
+        return this._instanceToJson(formData);
+      }
+    };
   }
   private _instanceToJson(instance: any) {
     return [...instance].reduce((obj, item) => {
