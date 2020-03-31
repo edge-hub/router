@@ -9,7 +9,14 @@ export function workersSite(options: Options) {
       const response = await getAssetFromKV(ctx.event, options);
       return response;
     } catch (error) {
-      throw error;
+      switch (error.status) {
+        case 404:
+          return;
+        case 405:
+          return;
+        default:
+          throw error;
+      }
     }
   };
 }
