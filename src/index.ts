@@ -26,8 +26,21 @@ function onNoMatch() {
   return new Response(`404 - Resource not found`, { status: 404 });
 }
 
-function onError(error: Error) {
-  return new Response(error.message || error.toString(), { status: 500 });
+function onError(error: Error, ctx: Context) {
+  const acceptHeader = ctx.request.headers.get("Accept");
+  if (acceptHeader && acceptHeader.includes("text/html")) {
+    return ctx
+      .status(500)
+      .text(error.message || error.toString())
+      .end();
+  }
+  return ctx
+    .status(500)
+    .raw(
+      JSON.stringify(error, Object.getOwnPropertyNames(error)),
+      "application/json"
+    )
+    .end();
 }
 
 export class EdgeRouter extends Trouter<Handler> {
@@ -61,7 +74,6 @@ export class EdgeRouter extends Trouter<Handler> {
         request.method as Trouter.HTTPMethod,
         context.pathname
       );
-
       context.params = params;
       handlers.push(this.onNoMatch);
 
@@ -78,6 +90,7 @@ export class EdgeRouter extends Trouter<Handler> {
 
       return this.onNoMatch(context);
     } catch (error) {
+      console.log(error.stack);
       return this.onError(error, context);
     }
   }
