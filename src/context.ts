@@ -117,7 +117,7 @@ export class Context extends RouterResponse {
   public cookies: Record<string, string | undefined> = {};
   public request: Request;
   public event: FetchEvent;
-  public requestBody: () => Promise<Body | void>;
+  public requestBody: () => Promise<Record<string, any> | void>;
   constructor(event: FetchEvent) {
     super();
     const { request } = event;
