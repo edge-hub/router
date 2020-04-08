@@ -2,7 +2,9 @@ import Trouter from "trouter";
 
 import { Context } from "./context";
 
-export type Handler = (context: Context) => Response | Promise<Response> | void;
+export type Handler = (
+  context: Context
+) => Response | Promise<Response | void> | void;
 
 export type ErrorHandler = (
   error: Error,
