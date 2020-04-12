@@ -1,4 +1,6 @@
-import { Context } from "../context";
+import { EdgeRequest } from "../request";
+import { EdgeResponse } from "../response";
+import { RouteHandler } from "../types";
 
 const DEFAULT_ALLOW_METHODS = [
   "POST",
@@ -20,7 +22,7 @@ const DEFAULT_ALLOW_HEADERS = [
 
 const DEFAULT_MAX_AGE_SECONDS = 60 * 60 * 24; // 24 hours
 
-type Origin = ((request: Request) => string | boolean) | string | boolean;
+type Origin = ((request: EdgeRequest) => string | boolean) | string | boolean;
 interface Options {
   origin?: Origin;
   maxAge?: number;
@@ -30,7 +32,7 @@ interface Options {
   allowCredentials?: boolean;
 }
 
-function getOriginValue(origin: Origin, request: Request) {
+function getOriginValue(origin: Origin, request: EdgeRequest) {
   if (typeof origin === "function") {
     return origin(request);
   }
@@ -40,9 +42,8 @@ function getOriginValue(origin: Origin, request: Request) {
   return origin;
 }
 
-export function cors(options: Options = {}) {
-  return (ctx: Context) => {
-    const { request } = ctx;
+export function cors(options: Options = {}): RouteHandler {
+  return (req: EdgeRequest, res: EdgeResponse) => {
     const origin = options.origin || "*";
     const maxAge = options.maxAge || DEFAULT_MAX_AGE_SECONDS;
     const allowMethods = options.allowMethods || DEFAULT_ALLOW_METHODS;
@@ -50,25 +51,25 @@ export function cors(options: Options = {}) {
     const allowCredentials = options.allowCredentials || true;
     const exposeHeaders = options.exposeHeaders || [];
 
-    const originValue = getOriginValue(origin, request);
+    const originValue = getOriginValue(origin, req);
 
     if (originValue) {
-      ctx.setHeader("Access-Control-Allow-Origin", String(originValue));
+      res.setHeader("Access-Control-Allow-Origin", String(originValue));
     }
 
     if (allowCredentials) {
-      ctx.setHeader("Access-Control-Allow-Credentials", "true");
+      res.setHeader("Access-Control-Allow-Credentials", "true");
     }
 
     if (exposeHeaders.length) {
-      ctx.setHeader("Access-Control-Expose-Headers", exposeHeaders.join(","));
+      res.setHeader("Access-Control-Expose-Headers", exposeHeaders.join(","));
     }
 
-    const preFlight = ctx.method === "OPTIONS";
+    const preFlight = req.method === "OPTIONS";
     if (preFlight) {
-      ctx.setHeader("Access-Control-Allow-Methods", allowMethods.join(","));
-      ctx.setHeader("Access-Control-Allow-Headers", allowHeaders.join(","));
-      ctx.setHeader("Access-Control-Max-Age", String(maxAge));
+      res.setHeader("Access-Control-Allow-Methods", allowMethods.join(","));
+      res.setHeader("Access-Control-Allow-Headers", allowHeaders.join(","));
+      res.setHeader("Access-Control-Max-Age", String(maxAge));
     }
   };
 }
