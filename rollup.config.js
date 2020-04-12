@@ -16,9 +16,7 @@ export default [
       },
     ],
     plugins: [
-      typescript({
-        tsconfig: "tsconfig.umd.json",
-      }),
+      typescript(),
       commonjs(),
       resolve({ preferBuiltins: true, module: false, browser: true }),
       globals(),
