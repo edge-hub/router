@@ -1,6 +1,6 @@
 {
   "name": "edge-router",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A minimal Express.js like router for cloudflare workers.",
   "keywords": [],
   "homepage": "https://github.com/vinaypuppal/edge-router#readme",
