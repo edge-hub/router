@@ -89,6 +89,7 @@ export class VHost {
   public use(hostPattern: string | RegExp, router: EdgeRouter) {
     const pattern = this.parseHost(hostPattern);
     this.routers.push({ pattern, handler: router });
+    return this;
   }
 
   public async onRequest(event: FetchEvent) {
@@ -100,7 +101,7 @@ export class VHost {
 
       for (const handler of handlers) {
         const { router, ...data } = handler;
-        const _response = router.onRequest(event, { vhost: data });
+        const _response = await router.onRequest(event, { vhost: data });
         if (_response instanceof Response) {
           return _response;
         }
