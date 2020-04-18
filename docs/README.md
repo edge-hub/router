@@ -16,13 +16,13 @@
 With Yarn
 
 ```bash
-yarn add @edgehub/router
+yarn add @edgehub/cf-router
 ```
 
 With NPM
 
 ```bash
-npm install @edgehub/router
+npm install @edgehub/cf-router
 ```
 
 ## 💻 Hello world example
@@ -34,7 +34,7 @@ wrangler generate myapp https://github.com/edge-hub/router/tree/master/examples/
 ```
 
 ```js
-import { EdgeRouter } from "@edgehub/router";
+import { EdgeRouter } from "@edgehub/cf-router";
 
 const worker = new EdgeRouter();
 
@@ -86,7 +86,7 @@ EdgeRouter extends [Trouter](https://github.com/lukeed/trouter) which means it i
 ### ✏️ Options
 
 ```js
-import { EdgeRouter } from "@edgehub/router";
+import { EdgeRouter } from "@edgehub/cf-router";
 
 const worker = new EdgeRouter(options);
 ```
@@ -105,10 +105,10 @@ The following table describes the properties of the optional options object.
 
 ### ☁️ Instance
 
-The `worker` object conventionally denotes the Cloudflare worker. Create it by calling the `new EdgeRouter()` class exported by the `@edgehub/router` module:
+The `worker` object conventionally denotes the Cloudflare worker. Create it by calling the `new EdgeRouter()` class exported by the `@edgehub/cf-router` module:
 
 ```js
-import { EdgeRouter } from "@edgehub/router";
+import { EdgeRouter } from "@edgehub/cf-router";
 
 const worker = new EdgeRouter();
 
@@ -160,7 +160,7 @@ Options:
 You can set up a custom listener as shown below
 
 ```js
-import { EdgeRouter } from "@edgehub/router";
+import { EdgeRouter } from "@edgehub/cf-router";
 
 const worker = new EdgeRouter();
 
@@ -374,7 +374,7 @@ Sets the response HTTP status code to statusCode and creates its string represen
 > `res.sendStatus` only creates the Response and it does not really send it. Inorder to send it you need to return the response generated from your route handler.
 
 ```js
-import { EdgeRouter } from "@edgehub/router";
+import { EdgeRouter } from "@edgehub/cf-router";
 
 const worker = new EdgeRouter();
 
@@ -405,7 +405,7 @@ res.status(500).send({ error: "something blew up" });
 > `res.send` only creates the Response and it does not really send it. Inorder to send it you need to return the response generated from your route handler.
 
 ```js
-import { EdgeRouter } from "@edgehub/router";
+import { EdgeRouter } from "@edgehub/cf-router";
 
 const worker = new EdgeRouter();
 
@@ -449,7 +449,7 @@ worker.use([path], [function, ...] function)
 #### Middleware Example
 
 ```js
-import { EdgeRouter } from "@edgehub/router";
+import { EdgeRouter } from "@edgehub/cf-router";
 
 const worker = new EdgeRouter();
 
@@ -493,7 +493,7 @@ worker.listen({ passThroughOnException: true });
 This library comes with a cors middleware, which can be used a shown below
 
 ```js
-import { EdgeRouter, cors } from "@edgehub/router";
+import { EdgeRouter, cors } from "@edgehub/cf-router";
 
 const worker = new EdgeRouter();
 
@@ -544,7 +544,7 @@ This library also comes with a `workersSite` middleware, which can be used to ad
 > Inorder to to use this middleware you need to install this package [@cloudflare/kv-asset-handler](https://github.com/cloudflare/kv-asset-handler) `yarn add @cloudflare/kv-asset-handler`
 
 ```js
-import { EdgeRouter, workersSite } from "@edgehub/router";
+import { EdgeRouter, workersSite } from "@edgehub/cf-router";
 
 const worker = new EdgeRouter();
 
@@ -573,7 +573,52 @@ worker.use(
 
 ## 🕸️ Domain Routing
 
-TODO: Docs
+This library exposes `VHostRouter` to support domain routing. CLoudflare workers allows to associate multiple domains/subdomains for a worker script as [mentioned here](https://developers.cloudflare.com/workers/about/routes/)
+
+So using `VHostRouter` you can define/scope `EdgeRouter` to a particular domain and handler it's requests as shown below.
+
+### API
+
+The `vhost` object conventionally denotes the Virtual Host. Create it by calling the `new VHostRouter()` class exported by the @edgehub/cf-router module:
+
+```js
+import { EdgeRouter, VHostRouter } from "@edgehub/cf-router";
+
+const vhost = VHostRouter();
+const apiRouter = EdgeRouter();
+const cdnRouter = EdgeRouter();
+
+// API routes
+apiRouter.get("/posts", (req, res) => {
+  return res.send({ posts: { title: "About EdgeRouter" } });
+});
+apiRouter.post("/posts", async (req, res) => {
+  const data = await req.body();
+  // store data in db and send response
+  return res.send(data);
+});
+
+// CDN routes
+cdnRouter.all("*", (req, res) => {
+  // Fetch image from CDN and modify on the fly to webp or resize ...etc
+});
+
+vhost.use("api.example.com", apiRouter);
+vhost.use("cdn.example.com", imageRouter);
+
+vhost.listen({ passThroughOnException: true });
+```
+
+The `vhost` object has following methods:
+
+- Listening for incoming requests `vhost.listen()` and it's simillar to [worker.listen()](#workerlisten)
+- Routing requests for a particular domain `vhost.use()`
+  ```js
+  vhost.use(DOMAIN_PATTERN, EDGEROUTER_INSTANCE);
+  ```
+  - `DOMAIN_PATTERN`: It can be a string or a RegExp object. When `DOMAIN_PATTERN` is a string it can contain `*` to match 1 or more characters in that section of the `DOMAIN_PATTERN`. When `DOMAIN_PATTERN` is a RegExp, it will be forced to case-insensitive (since `DOMAIN_PATTERN`s are) and will be forced to match based on the start and end of the `DOMAIN_PATTERN`.
+  - `EDGEROUTER_INSTANCE`: This is executed when a `DOMAIN_PATTERN` is matched.
+  - When `DOMAIN_PATTERN` is matched and the request is sent down to a EDGEROUTER_INSTANCE, the req.vhost property will be populated with an object. This object will have numeric properties corresponding to each wildcard (or capture group if RegExp object provided) and the hostname that was matched.
 
 ## 👉 Contributing
 
