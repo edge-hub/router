@@ -18,7 +18,7 @@ interface HostHandler extends VHostData {
   router: EdgeRouter;
 }
 
-export class VHost {
+export class VHostRouter {
   private onNoMatch: NoMatchHandler | undefined;
   private onError: ErrorHandler | undefined;
   private routers: { pattern: RegExp; handler: EdgeRouter }[];
