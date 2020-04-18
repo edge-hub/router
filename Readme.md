@@ -1,6 +1,6 @@
 > Still in development and not production ready
 
-# EdgeHub Router
+# EdgeRouter
 
 A minimal Express.js like router for cloudflare workers.
 
