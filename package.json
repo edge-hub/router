@@ -3,13 +3,13 @@
   "version": "0.0.3",
   "description": "A minimal Express.js like router for cloudflare workers.",
   "keywords": [],
-  "homepage": "https://github.com/vinaypuppal/edge-router#readme",
+  "homepage": "https://github.com/edge-hub/router#readme",
   "bugs": {
-    "url": "https://github.com/vinaypuppal/edge-router/issues"
+    "url": "https://github.com/edge-hub/router/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vinaypuppal/edge-router.git"
+    "url": "git+https://github.com/edge-hub/router.git"
   },
   "license": "MIT",
   "author": "vinaypuppal",
