@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>
+      @edgehub/router - A minimal Express.js like router for cloudflare workers.
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="description"
+      content="A minimal Express.js like router for cloudflare workers."
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css"
+    />
+    <style>
+      .loading-text {
+        position: fixed;
+        display: block;
+        width: 100%;
+        margin-top: 10%;
+        font-weight: 300;
+        text-align: center;
+        z-index: 999999;
+        font-size: 22px;
+        line-height: 28px;
+      }
+
+      .loading-text span {
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .loading-text span:after {
+        content: "Loading... Please wait.";
+        position: absolute;
+        overflow: hidden;
+        max-width: 100%;
+        white-space: nowrap;
+        color: #fff;
+        left: 0;
+        animation: loading 2s linear infinite;
+      }
+
+      @keyframes loading {
+        0% {
+          max-width: 5%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="loading-text">
+        <span>
+          Loading... Please wait.
+        </span>
+      </div>
+    </div>
+    <script>
+      window.$docsify = {
+        name: "@edgehub/router",
+        repo: "https://github.com/edge-hub/router",
+        coverpage: true,
+        search: "auto",
+        copyCode: {
+          buttonText: "Copy to clipboard",
+          errorText: "Error",
+          successText: "Copied",
+        },
+      };
+    </script>
+    <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+    <script src="//unpkg.com/docsify-copy-code@2"></script>
+    <script src="//cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+  </body>
+</html>

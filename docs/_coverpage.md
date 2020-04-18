@@ -1,9 +1,3 @@
-> Still in development and not production ready
-
-# EdgeHub Router
-
-A minimal Express.js like router for cloudflare workers.
-
 <p>
   <a aria-label="ZEIT logo" href="https://github.com/zeit">
     <img src="https://img.shields.io/badge/MADE%20BY%20EdgeHub-000000.svg?style=for-the-badge&logo=EdgeHub&labelColor=000000&logoWidth=20">
@@ -16,14 +10,9 @@ A minimal Express.js like router for cloudflare workers.
   </a>
 </p>
 
-## Documentation
+# EdgeRouter
 
-Visit <a aria-label="edgehub router learn" href="https://router.edgehub.in">https://router.edgehub.in</a> to view the documentation.
+> A minimal Express.js like router for [Cloudflare Workers](https://workers.cloudflare.com/).
 
-## Contributing
-
-Please see our [contributing.md](/contributing.md).
-
-## Authors
-
-- [VinayPuppal](https://vinaypuppal.com)
+[Get Started](#🔋-install)
+[Features](#✨-features)
