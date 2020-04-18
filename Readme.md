@@ -27,9 +27,9 @@ A minimal Express.js like router for cloudflare workers.
 
 ```bash
 # with Yarn
-yarn add edge-router
+yarn add @edgehub/router
 # with NPM
-npm install edge-router
+npm install @edgehub/router
 ```
 
 ## 💻 Usage
