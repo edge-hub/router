@@ -1,3 +1,5 @@
+> Still in development and not production ready
+
 # EdgeHub Router
 
 A minimal Express.js like router for cloudflare workers.
@@ -14,13 +16,25 @@ A minimal Express.js like router for cloudflare workers.
   </a>
 </p>
 
-## Getting Started
+## ✨ Features:
 
-Visit <a aria-label="edgehub learn" href="https://edgehub.in/router">https://edgehub.in/router</a> to get started with Edgehub Router.
+- Based on [trouter](https://github.com/lukeed/trouter)
+- Express style routes.
+- Middleware support.
+- Helper functions to modify headers, read requests and send response.
 
-## Documentation
+## 🔋 Install
 
-Visit <a aria-label="edgehub learn" href="https://edgehub.in/router">https://edgehub.in/router/docs</a> to view the documentation.
+```bash
+# with Yarn
+yarn add edge-router
+# with NPM
+npm install edge-router
+```
+
+## 💻 Usage
+
+## 👀 API
 
 ## Contributing
 
