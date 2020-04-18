@@ -1,8 +1,21 @@
 {
-  "name": "edge-router",
-  "version": "0.0.11",
+  "name": "@edgehub/router",
+  "version": "0.0.3",
   "description": "A minimal Express.js like router for cloudflare workers.",
+  "keywords": [],
+  "homepage": "https://github.com/edge-hub/router#readme",
+  "bugs": {
+    "url": "https://github.com/edge-hub/router/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edge-hub/router.git"
+  },
+  "license": "MIT",
+  "author": "vinaypuppal",
   "main": "dist/index.js",
+  "module": "dist/index.js",
+  "umd:main": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "files": [
     "README.md",
@@ -10,17 +23,23 @@
     "package.json"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && yarn rollup -c rollup.config.js",
     "prepublish": "yarn build"
   },
-  "keywords": [],
-  "author": "vinaypuppal",
-  "license": "MIT",
-  "devDependencies": {
-    "husky": "^4.2.3",
-    "lint-staged": "^10.0.10",
-    "prettier": "^2.0.2",
-    "typescript": "^3.8.3"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.md": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.{js,ts,json}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "@cloudflare/kv-asset-handler": "^0.0.9",
@@ -29,27 +48,25 @@
     "cookie": "^0.4.0",
     "trouter": "^3.1.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vinaypuppal/edge-router.git"
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
+    "@types/jest": "^25.2.1",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.10",
+    "prettier": "^2.0.2",
+    "rollup": "^2.6.0",
+    "rollup-plugin-node-globals": "^1.4.0",
+    "rollup-plugin-terser": "^5.3.0",
+    "rollup-plugin-typescript2": "^0.27.0",
+    "typescript": "^3.8.3"
   },
-  "bugs": {
-    "url": "https://github.com/vinaypuppal/edge-router/issues"
+  "engines": {
+    "node": ">=10"
   },
-  "homepage": "https://github.com/vinaypuppal/edge-router#readme",
-  "lint-staged": {
-    "*.{js,ts,json}": [
-      "prettier --write",
-      "git add"
-    ],
-    "**/*.md": [
-      "prettier --write",
-      "git add"
+  "filesize": {
+    "track": [
+      "./dist/index.umd.js"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }
