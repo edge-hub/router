@@ -9,14 +9,17 @@ export default [
     input: "src/index.ts",
     output: [
       {
-        file: "dist/index.umd.js",
+        file: "docs/_lib/index.umd.js",
         format: "umd",
         name: "EdgeRouter",
         esModule: false,
       },
     ],
     plugins: [
-      typescript(),
+      typescript({
+        tsconfig: "tsconfig.json",
+        tsconfigOverride: { compilerOptions: { declaration: false } },
+      }),
       commonjs(),
       resolve({ preferBuiltins: true, module: false, browser: true }),
       globals(),

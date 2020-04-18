@@ -20,6 +20,11 @@ A minimal Express.js like router for cloudflare workers.
 
 Visit <a aria-label="edgerouter learn" href="https://router.edgehub.in">https://router.edgehub.in</a> to view the documentation.
 
+## Todo
+
+- [ ] Tests
+- [ ] Preview examples and library with `https://cloudflareworkers.com/`
+
 ## Contributing
 
 Please see our [contributing.md](/contributing.md).

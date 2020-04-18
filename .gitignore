@@ -117,3 +117,4 @@ dist
 # microbundle
 .rts*
 .DS_Store
+docs/_lib/

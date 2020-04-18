@@ -1,0 +1,10 @@
+name = "edge-router-docs"
+type = "webpack"
+account_id = "861533869cd09ff8b4ef02d65205ac54"
+workers_dev = false
+route = "router.edgehub.in/*"
+zone_id = "bd3c7073a97220f7952e86912a574a7c"
+
+[site]
+bucket = "docs"
+entry-point = "workers"
