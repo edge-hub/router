@@ -10,17 +10,16 @@ import {
 } from "./types";
 import { EdgeRequest } from "./request";
 import { EdgeResponse } from "./response";
-import { onNoMatch, onError } from "./default";
 
 export class EdgeRouter extends Trouter<RouteHandler> {
-  private onNoMatch: NoMatchHandler;
-  private onError: ErrorHandler;
+  private onNoMatch: NoMatchHandler | undefined;
+  private onError: ErrorHandler | undefined;
   private onBeforeResponse: BeforeResponseHandler | undefined;
 
-  constructor(options: RouterOptions = { onNoMatch, onError }) {
+  constructor(options: RouterOptions) {
     super();
-    this.onNoMatch = options.onNoMatch || onNoMatch;
-    this.onError = options.onError || onError;
+    this.onNoMatch = options.onNoMatch;
+    this.onError = options.onError;
     this.onBeforeResponse = options.onBeforeResponse;
   }
 
@@ -52,7 +51,6 @@ export class EdgeRouter extends Trouter<RouteHandler> {
         req.pathname
       );
       req.params = params;
-      handlers.push(this.onNoMatch);
 
       for (const handler of handlers) {
         const _response = await handler(req, res);
@@ -66,10 +64,14 @@ export class EdgeRouter extends Trouter<RouteHandler> {
         }
       }
 
-      return this.onNoMatch(req, res);
+      if (this.onNoMatch) {
+        return this.onNoMatch(req, res);
+      }
     } catch (error) {
       console.log(error.stack);
-      return this.onError(error, req, res);
+      if (this.onError) {
+        return this.onError(error, req, res);
+      }
     }
   }
 
@@ -81,7 +83,24 @@ export class EdgeRouter extends Trouter<RouteHandler> {
     addEventListener("fetch", (event) => {
       if (passThroughOnException) {
         event.passThroughOnException();
+        if (this.onError) {
+          console.warn(
+            `You enabled passThroughOnException and also have onError handler so onError handler will be used if any of your route handlers throw error instead of fallingback to origin response!`
+          );
+        }
+      } else {
+        if (!this.onError) {
+          console.warn(
+            `You did not passThroughOnException and also did not set onError handler so if any of your route handlers throw error it will be ignored and a generic worker error will be returned!`
+          );
+        }
       }
+
+      // Why?
+      // Because when passThroughOnException is set we want to ignore errors and return response from origin.
+      // Incase of error or no match router does not send any response so worker will send response from origin as it is.
+      // We can override this by specifying error and nomatch handlers.
+      // @ts-ignore
       event.respondWith(this.onRequest(event));
     });
     return this;
