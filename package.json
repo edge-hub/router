@@ -1,5 +1,5 @@
 {
-  "name": "@edgehub/cf-router",
+  "name": "@edgehub/router",
   "version": "0.0.3",
   "description": "A minimal Express.js like router for cloudflare workers.",
   "keywords": [],

@@ -16,13 +16,13 @@
 With Yarn
 
 ```bash
-yarn add @edgehub/cf-router
+yarn add @edgehub/router
 ```
 
 With NPM
 
 ```bash
-npm install @edgehub/cf-router
+npm install @edgehub/router
 ```
 
 ## 💻 Hello world example
@@ -34,7 +34,7 @@ wrangler generate myapp https://github.com/edge-hub/router/tree/master/examples/
 ```
 
 ```js
-import { EdgeRouter } from "@edgehub/cf-router";
+import { EdgeRouter } from "@edgehub/router";
 
 const worker = new EdgeRouter();
 
@@ -86,7 +86,7 @@ EdgeRouter extends [Trouter](https://github.com/lukeed/trouter) which means it i
 ### ✏️ Options
 
 ```js
-import { EdgeRouter } from "@edgehub/cf-router";
+import { EdgeRouter } from "@edgehub/router";
 
 const worker = new EdgeRouter(options);
 ```
@@ -105,10 +105,10 @@ The following table describes the properties of the optional options object.
 
 ### ☁️ Instance
 
-The `worker` object conventionally denotes the Cloudflare worker. Create it by calling the `new EdgeRouter()` class exported by the `@edgehub/cf-router` module:
+The `worker` object conventionally denotes the Cloudflare worker. Create it by calling the `new EdgeRouter()` class exported by the `@edgehub/router` module:
 
 ```js
-import { EdgeRouter } from "@edgehub/cf-router";
+import { EdgeRouter } from "@edgehub/router";
 
 const worker = new EdgeRouter();
 
@@ -160,7 +160,7 @@ Options:
 You can set up a custom listener as shown below
 
 ```js
-import { EdgeRouter } from "@edgehub/cf-router";
+import { EdgeRouter } from "@edgehub/router";
 
 const worker = new EdgeRouter();
 
@@ -371,10 +371,10 @@ res.status(400).send("Bad Request");
 
 Sets the response HTTP status code to statusCode and creates its string representation as the response body.
 
-> `res.sendStatus` only creates the Response and it does not really send it. Inorder to send it you need to return the response generated from your route handler.
+!> `res.sendStatus` only creates the Response and it does not really send it. Inorder to send it you need to return the response generated from your route handler.
 
 ```js
-import { EdgeRouter } from "@edgehub/cf-router";
+import { EdgeRouter } from "@edgehub/router";
 
 const worker = new EdgeRouter();
 
@@ -402,10 +402,10 @@ res.status(404).send("Sorry, we cannot find that!");
 res.status(500).send({ error: "something blew up" });
 ```
 
-> `res.send` only creates the Response and it does not really send it. Inorder to send it you need to return the response generated from your route handler.
+!> `res.send` only creates the Response and it does not really send it. Inorder to send it you need to return the response generated from your route handler.
 
 ```js
-import { EdgeRouter } from "@edgehub/cf-router";
+import { EdgeRouter } from "@edgehub/router";
 
 const worker = new EdgeRouter();
 
@@ -444,12 +444,12 @@ worker.use([path], [function, ...] function)
 - Sub-group or "filtered" middleware are defined with a base pathname that's more specific than `/`. For example, defining `worker.use('/users', ...fn)` will run on any `/users/**/*` request. These functions will execute after "global" middleware but before the route-specific handler.
 - Route handlers match specific paths and execute last in the chain. They must also match the method action.
 
-> Most importantly, a middleware must either terminate the response (res.send) by returning it or return **nothing**. When it returns nothing the next route/middleware handler will invoked.
+!> Most importantly, a middleware must either terminate the response (res.send) by returning it or return **nothing**. When it returns nothing the next route/middleware handler will invoked.
 
 #### Middleware Example
 
 ```js
-import { EdgeRouter } from "@edgehub/cf-router";
+import { EdgeRouter } from "@edgehub/router";
 
 const worker = new EdgeRouter();
 
@@ -493,7 +493,7 @@ worker.listen({ passThroughOnException: true });
 This library comes with a cors middleware, which can be used a shown below
 
 ```js
-import { EdgeRouter, cors } from "@edgehub/cf-router";
+import { EdgeRouter, cors } from "@edgehub/router";
 
 const worker = new EdgeRouter();
 
@@ -535,7 +535,7 @@ worker.use(
 );
 ```
 
-> Here `request` is original fetch request as mentioned [here](https://developers.cloudflare.com/workers/reference/apis/request/)
+!> Here `request` is original fetch request as mentioned [here](https://developers.cloudflare.com/workers/reference/apis/request/)
 
 ##### Worker Sites Middleware
 
@@ -544,7 +544,7 @@ This library also comes with a `workersSite` middleware, which can be used to ad
 > Inorder to to use this middleware you need to install this package [@cloudflare/kv-asset-handler](https://github.com/cloudflare/kv-asset-handler) `yarn add @cloudflare/kv-asset-handler`
 
 ```js
-import { EdgeRouter, workersSite } from "@edgehub/cf-router";
+import { EdgeRouter, workersSite } from "@edgehub/router";
 
 const worker = new EdgeRouter();
 
@@ -579,10 +579,10 @@ So using `VHostRouter` you can define/scope `EdgeRouter` to a particular domain 
 
 ### API
 
-The `vhost` object conventionally denotes the Virtual Host. Create it by calling the `new VHostRouter()` class exported by the @edgehub/cf-router module:
+The `vhost` object conventionally denotes the Virtual Host. Create it by calling the `new VHostRouter()` class exported by the `@edgehub/router` module:
 
 ```js
-import { EdgeRouter, VHostRouter } from "@edgehub/cf-router";
+import { EdgeRouter, VHostRouter } from "@edgehub/router";
 
 const vhost = VHostRouter();
 const apiRouter = EdgeRouter();
