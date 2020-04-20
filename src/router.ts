@@ -16,11 +16,11 @@ export class EdgeRouter extends Trouter<RouteHandler> {
   private onError: ErrorHandler | undefined;
   private onBeforeResponse: BeforeResponseHandler | undefined;
 
-  constructor(options: RouterOptions) {
+  constructor(options?: RouterOptions) {
     super();
-    this.onNoMatch = options.onNoMatch;
-    this.onError = options.onError;
-    this.onBeforeResponse = options.onBeforeResponse;
+    this.onNoMatch = options ? options.onNoMatch : undefined;
+    this.onError = options ? options.onError : undefined;
+    this.onBeforeResponse = options ? options.onBeforeResponse : undefined;
   }
 
   public use(
