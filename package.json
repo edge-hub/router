@@ -1,6 +1,6 @@
 {
   "name": "@edgehub/router",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "A minimal Express.js like router for cloudflare workers.",
   "keywords": [
     "cloudflare",
