@@ -1,8 +1,13 @@
 {
   "name": "@edgehub/router",
-  "version": "0.0.16",
+  "version": "0.0.19",
   "description": "A minimal Express.js like router for cloudflare workers.",
-  "keywords": [],
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "router",
+    "cloudflare-workers"
+  ],
   "homepage": "https://github.com/edge-hub/router#readme",
   "bugs": {
     "url": "https://github.com/edge-hub/router/issues"
@@ -22,7 +27,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc && yarn rollup -c rollup.config.js",
-    "prepublish": "yarn build && cp package.json dist/package.json"
+    "prepublish": "cp package.json dist/package.json && cp Readme.md dist/Readme.md"
   },
   "husky": {
     "hooks": {
