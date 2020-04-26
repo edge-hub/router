@@ -15,10 +15,10 @@
   resolved "https://registry.yarnpkg.com/@cloudflare/workers-types/-/workers-types-1.0.9.tgz#00cfb188e93125f95ccc27d7a4c6aabd6b62e699"
   integrity sha512-x6aA5FRK0fR0pC/mkDq0nG6WNkf3aVu6vLRfA7FoMtajbvWKN9JBveI/HhbjpMOIRWfNnGd2rw6WH7NAv4XesA==
 
-"@edgehub/router@latest":
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/@edgehub/router/-/router-0.0.26.tgz#4a411d5b37f3803148ba223782acd91ab99de39a"
-  integrity sha512-sRS0iHZjIvirFDN/TY3deCAGSgBcUV+h48xnPBo0OF1ZWh9NpTty+e3uSLxJLbS2jff1RYK08by4rVDFJRPwng==
+"@edgehub/router@^0.0.28":
+  version "0.0.28"
+  resolved "https://registry.yarnpkg.com/@edgehub/router/-/router-0.0.28.tgz#b892275713bf967615d27739a42ca7322e7983f6"
+  integrity sha512-2DhiigaO8b1TcJ51Ekahk+obyngWw/GKtu7ueOtFD49ZoNXbkeIdMCg50PRNiPJrMCm/M2ZT8QNrMGsA40K/RQ==
   dependencies:
     "@cloudflare/kv-asset-handler" "^0.0.9"
     "@types/cookie" "^0.3.3"
@@ -2653,7 +2653,7 @@ watchpack@^1.6.1:
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
 
-webpack-cli@^3.3.6:
+webpack-cli@^3.3.11:
   version "3.3.11"
   resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-3.3.11.tgz#3bf21889bf597b5d82c38f215135a411edfdc631"
   integrity sha512-dXlfuml7xvAFwYUPsrtQAA9e4DOe58gnzSxhgrO/ZM/gyXTBowrsYeubyN4mqGhYdpXMFNyQ6emjJS9M7OBd4g==
@@ -2678,7 +2678,7 @@ webpack-sources@^1.4.0, webpack-sources@^1.4.1:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^4.35.3:
+webpack@^4.43.0:
   version "4.43.0"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.43.0.tgz#c48547b11d563224c561dad1172c8aa0b8a678e6"
   integrity sha512-GW1LjnPipFW2Y78OOab8NJlCflB7EFskMih2AHdvjbpKMeDJqEgSx24cXXXiPS65+WSwVyxtDsJH6jGX2czy+g==

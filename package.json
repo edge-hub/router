@@ -1,6 +1,6 @@
 {
   "name": "@edgehub/router",
-  "version": "0.0.26",
+  "version": "0.0.29",
   "description": "A minimal Express.js like router for cloudflare workers.",
   "keywords": [
     "cloudflare",
@@ -24,6 +24,7 @@
   "main": "index.js",
   "module": "index.js",
   "types": "index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc && yarn rollup -c rollup.config.js",
