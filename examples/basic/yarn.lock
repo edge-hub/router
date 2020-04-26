@@ -15,10 +15,10 @@
   resolved "https://registry.yarnpkg.com/@cloudflare/workers-types/-/workers-types-1.0.9.tgz#00cfb188e93125f95ccc27d7a4c6aabd6b62e699"
   integrity sha512-x6aA5FRK0fR0pC/mkDq0nG6WNkf3aVu6vLRfA7FoMtajbvWKN9JBveI/HhbjpMOIRWfNnGd2rw6WH7NAv4XesA==
 
-"@edgehub/router@^0.0.24":
-  version "0.0.24"
-  resolved "https://registry.yarnpkg.com/@edgehub/router/-/router-0.0.24.tgz#76f8a1b371a16b83e11ddd0d9963a3eb9031ff29"
-  integrity sha512-qkVO/DILDhOeVcLiYuGEbaafczH7kiVJnh5m+6c3g0UYWRyKEHfe/FkS4ctDeQ/X5pwrEH2E4L35paxjpKrcGw==
+"@edgehub/router@latest":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@edgehub/router/-/router-0.0.26.tgz#4a411d5b37f3803148ba223782acd91ab99de39a"
+  integrity sha512-sRS0iHZjIvirFDN/TY3deCAGSgBcUV+h48xnPBo0OF1ZWh9NpTty+e3uSLxJLbS2jff1RYK08by4rVDFJRPwng==
   dependencies:
     "@cloudflare/kv-asset-handler" "^0.0.9"
     "@types/cookie" "^0.3.3"

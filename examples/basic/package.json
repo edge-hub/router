@@ -18,6 +18,6 @@
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
-    "@edgehub/router": "^0.0.24"
+    "@edgehub/router": "latest"
   }
 }
