@@ -27,7 +27,7 @@ Visit <a aria-label="edgerouter learn" href="https://router.edgehub.in">https://
 
 ## Contributing
 
-Please see our [contributing.md](/contributing.md).
+Please see our [contributing.md](/.github/CONTRIBUTING.md).
 
 ## Authors
 

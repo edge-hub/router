@@ -1,0 +1,23 @@
+{
+  "name": "edgerouter",
+  "version": "1.0.0",
+  "description": "Cloudflare worker EdgeRouter template",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "dev": "NODE_ENV=development npm run build"
+  },
+  "author": "edgehub",
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^1.0.1",
+    "prettier": "^1.18.2",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.3",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.6"
+  },
+  "dependencies": {
+    "@edgehub/router": "^0.0.25"
+  }
+}
