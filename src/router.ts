@@ -67,6 +67,9 @@ export class EdgeRouter extends Trouter<RouteHandler> {
       if (this.onNoMatch) {
         return this.onNoMatch(req, res);
       }
+      console.warn(
+        `No response was returned by any router handler. Did you forgot to return "res.send"?`
+      );
     } catch (error) {
       console.log(error.stack);
       if (this.onError) {
