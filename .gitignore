@@ -118,3 +118,4 @@ dist
 .rts*
 .DS_Store
 docs/_lib/
+worker/

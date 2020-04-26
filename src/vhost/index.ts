@@ -1,12 +1,12 @@
-import { EdgeRouter } from "./router";
+import { EdgeRouter } from "../router";
 import {
   VHostData,
   NoMatchHandler,
   ErrorHandler,
   RouterOptions,
-} from "./types";
-import { EdgeRequest } from "./request";
-import { EdgeResponse } from "./response";
+} from "../types";
+import { EdgeRequest } from "../request";
+import { EdgeResponse } from "../response";
 
 const ASTERISK_REGEXP = /\*/g;
 const ASTERISK_REPLACE = "([^.]+)";

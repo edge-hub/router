@@ -26,7 +26,11 @@
   "types": "index.d.ts",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "tsc && yarn rollup -c rollup.config.js && cp package.json dist/package.json && cp Readme.md dist/Readme.md"
+    "build": "tsc && yarn rollup -c rollup.config.js",
+    "copypackage": "cp package.json dist/package.json && cp Readme.md dist/Readme.md",
+    "dist": "yarn build && yarn copypackage",
+    "release": "npm publish --access public dist/",
+    "pre-release": "npm publish --access public --tag next dist/"
   },
   "husky": {
     "hooks": {
