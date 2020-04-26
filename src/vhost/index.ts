@@ -1,12 +1,12 @@
-import { EdgeRouter } from "./router";
+import { EdgeRouter } from "../router";
 import {
   VHostData,
   NoMatchHandler,
   ErrorHandler,
   RouterOptions,
-} from "./types";
-import { EdgeRequest } from "./request";
-import { EdgeResponse } from "./response";
+} from "../types";
+import { EdgeRequest } from "../request";
+import { EdgeResponse } from "../response";
 
 const ASTERISK_REGEXP = /\*/g;
 const ASTERISK_REPLACE = "([^.]+)";
@@ -23,10 +23,10 @@ export class VHostRouter {
   private onError: ErrorHandler | undefined;
   private routers: { pattern: RegExp; handler: EdgeRouter }[];
 
-  constructor(options: Omit<RouterOptions, "onBeforeResponse">) {
+  constructor(options?: Omit<RouterOptions, "onBeforeResponse">) {
     this.routers = [];
-    this.onNoMatch = options.onNoMatch;
-    this.onError = options.onError;
+    this.onNoMatch = options ? options.onNoMatch : undefined;
+    this.onError = options ? options.onError : undefined;
   }
 
   private isregexp(val: string | RegExp) {

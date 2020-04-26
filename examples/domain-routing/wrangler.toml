@@ -1,0 +1,7 @@
+name = "hello-world"
+type = "webpack"
+workers_dev = true
+account_id = ""
+route = ""
+zone_id = ""
+webpack_config = "webpack.config.js"

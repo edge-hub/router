@@ -1,8 +1,13 @@
 {
   "name": "@edgehub/router",
-  "version": "0.0.23",
+  "version": "0.0.25",
   "description": "A minimal Express.js like router for cloudflare workers.",
-  "keywords": [],
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "router",
+    "cloudflare-workers"
+  ],
   "homepage": "https://github.com/edge-hub/router#readme",
   "bugs": {
     "url": "https://github.com/edge-hub/router/issues"
@@ -16,18 +21,16 @@
   },
   "license": "MIT",
   "author": "vinaypuppal",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "umd:main": "dist/index.umd.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "README.md",
-    "dist",
-    "package.json"
-  ],
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
   "scripts": {
+    "prebuild": "rimraf dist",
     "build": "tsc && yarn rollup -c rollup.config.js",
-    "prepublish": "yarn build"
+    "copypackage": "cp package.json dist/package.json && cp Readme.md dist/Readme.md",
+    "dist": "yarn build && yarn copypackage",
+    "release": "npm publish --access public dist/",
+    "pre-release": "npm publish --access public --tag next dist/"
   },
   "husky": {
     "hooks": {
@@ -45,6 +48,7 @@
     ]
   },
   "dependencies": {
+    "@cloudflare/kv-asset-handler": "^0.0.9",
     "@types/cookie": "^0.3.3",
     "@types/trouter": "^3.1.0",
     "cookie": "^0.4.0",
@@ -57,14 +61,12 @@
     "husky": "^4.2.3",
     "lint-staged": "^10.0.10",
     "prettier": "^2.0.2",
+    "rimraf": "^3.0.2",
     "rollup": "^2.6.0",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-terser": "^5.3.0",
     "rollup-plugin-typescript2": "^0.27.0",
     "typescript": "^3.8.3"
-  },
-  "peerDependencies": {
-    "@cloudflare/kv-asset-handler": "^0.0.9"
   },
   "filesize": {
     "track": [

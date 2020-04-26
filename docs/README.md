@@ -493,7 +493,8 @@ worker.listen({ passThroughOnException: true });
 This library comes with a cors middleware, which can be used a shown below
 
 ```js
-import { EdgeRouter, cors } from "@edgehub/router";
+import { EdgeRouter } from "@edgehub/router";
+import { cors } from "@edgehub/router/middlewares/cors";
 
 const worker = new EdgeRouter();
 
@@ -544,7 +545,8 @@ This library also comes with a `workersSite` middleware, which can be used to ad
 > Inorder to to use this middleware you need to install this package [@cloudflare/kv-asset-handler](https://github.com/cloudflare/kv-asset-handler) `yarn add @cloudflare/kv-asset-handler`
 
 ```js
-import { EdgeRouter, workersSite } from "@edgehub/router";
+import { EdgeRouter } from "@edgehub/router";
+import { workersSite } from "@edgehub/router/middlewares/static";
 
 const worker = new EdgeRouter();
 
@@ -582,18 +584,23 @@ So using `VHostRouter` you can define/scope `EdgeRouter` to a particular domain 
 The `vhost` object conventionally denotes the Virtual Host. Create it by calling the `new VHostRouter()` class exported by the `@edgehub/router` module:
 
 ```js
-import { EdgeRouter, VHostRouter } from "@edgehub/router";
+import { EdgeRouter } from "@edgehub/router";
+import { VHostRouter } from "@edgehub/router/vhost";
 
-const vhost = VHostRouter();
-const apiRouter = EdgeRouter();
-const cdnRouter = EdgeRouter();
+const vhost = new VHostRouter();
+const apiRouter = new EdgeRouter();
+const cdnRouter = new EdgeRouter();
 
 // API routes
 apiRouter.get("/posts", (req, res) => {
   return res.send({ posts: { title: "About EdgeRouter" } });
 });
+
 apiRouter.post("/posts", async (req, res) => {
   const data = await req.body();
+  if (!data) {
+    return res.send(`Not data from POST req`);
+  }
   // store data in db and send response
   return res.send(data);
 });
@@ -601,10 +608,11 @@ apiRouter.post("/posts", async (req, res) => {
 // CDN routes
 cdnRouter.all("*", (req, res) => {
   // Fetch image from CDN and modify on the fly to webp or resize ...etc
+  res.send(`Some image`);
 });
 
 vhost.use("api.example.com", apiRouter);
-vhost.use("cdn.example.com", imageRouter);
+vhost.use("cdn.example.com", cdnRouter);
 
 vhost.listen({ passThroughOnException: true });
 ```
