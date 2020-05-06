@@ -10,6 +10,7 @@ export class EdgeRequest extends Context {
   public url: string;
   public hash: string;
   public host: string;
+  public origin: string;
   public hostname: string;
   public pathname: string;
   public protocol: string;
@@ -33,6 +34,7 @@ export class EdgeRequest extends Context {
     this.url = url.href;
     this.hostname = url.hostname;
     this.host = url.hostname;
+    this.origin = url.origin;
     this.subdomains = url.hostname.split(".").reverse().slice(2);
     this.hash = url.hash;
     this.pathname = url.pathname;
