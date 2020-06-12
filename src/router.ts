@@ -71,7 +71,6 @@ export class EdgeRouter extends Trouter<RouteHandler> {
         `No response was returned by any router handler. Did you forgot to return "res.send"?`
       );
     } catch (error) {
-      console.log(error.stack);
       if (this.onError) {
         return this.onError(error, req, res);
       }
