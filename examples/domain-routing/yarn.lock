@@ -15,10 +15,10 @@
   resolved "https://registry.yarnpkg.com/@cloudflare/workers-types/-/workers-types-1.0.9.tgz#00cfb188e93125f95ccc27d7a4c6aabd6b62e699"
   integrity sha512-x6aA5FRK0fR0pC/mkDq0nG6WNkf3aVu6vLRfA7FoMtajbvWKN9JBveI/HhbjpMOIRWfNnGd2rw6WH7NAv4XesA==
 
-"@edgehub/router@^0.0.25":
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/@edgehub/router/-/router-0.0.25.tgz#7cee34e3d36d8b33e7b6a87734194b03c67c827c"
-  integrity sha512-qE1sACoGygpq3CN6sDw8yEbbIT5hvOFweJJFYDhjajW912YqZ6a9chnowxTdmS5LeXUWq8uYw1vByNZBqSbskA==
+"@edgehub/router@latest":
+  version "0.0.32"
+  resolved "https://registry.yarnpkg.com/@edgehub/router/-/router-0.0.32.tgz#806af7a20ccf76fa9565cc4524536a1c0bae9a4a"
+  integrity sha512-Dg6yEEDW2yhoWQ4zl4jdbKjk4P3vxmGVV4WbrthG4NLg5d+7aoHFbnY9sEaIV0f7ZSndVMcz6vf7duZ43Ah8Yw==
   dependencies:
     "@cloudflare/kv-asset-handler" "^0.0.9"
     "@types/cookie" "^0.3.3"
@@ -2339,9 +2339,9 @@ split-string@^3.0.1, split-string@^3.0.2:
     extend-shallow "^3.0.0"
 
 ssri@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/ssri/-/ssri-6.0.1.tgz#2a3c41b28dd45b62b63676ecb74001265ae9edd8"
-  integrity sha512-3Wge10hNcT1Kur4PDFwEieXSCMCJs/7WvSACcrMYrNp+b8kDL1/0wJch5Ni2WrtwEa2IO8OsVfeKIciKCDx/QA==
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/ssri/-/ssri-6.0.2.tgz#157939134f20464e7301ddba3e90ffa8f7728ac5"
+  integrity sha512-cepbSq/neFK7xB6A50KHN0xHDotYzq58wWCa5LeWqnPrHG8GzfEjO/4O8kpmcGW+oaxkvhEJCWgbgNk4/ZV93Q==
   dependencies:
     figgy-pudding "^3.5.1"
 
